@@ -36,6 +36,9 @@ public class Demo : MonoBehaviour
 	[SerializeField]
 	PropPosition LightEnd;
 
+	[SerializeField]
+	List<DepthExample> DepthExampleObjects;
+
 	Coroutine BenchCoroutine;
 
 	Coroutine LightCoroutine;
@@ -68,6 +71,14 @@ public class Demo : MonoBehaviour
 		else
 		{
 			MainCam.transform.position = PerspectiveCamPosition;
+		}
+	}
+
+	void SetDepthTest(bool on)
+	{
+		foreach(DepthExample de in DepthExampleObjects)
+		{
+			de.ToggleDepthTest(on);
 		}
 	}
 
@@ -212,6 +223,24 @@ public class Demo : MonoBehaviour
 			if(GUILayout.Button("Stop Light"))
 			{
 				foreach(Demo d in targets) d.StopLight();
+			}
+
+			GUILayout.EndHorizontal();
+
+			Space();
+
+			EditorGUILayout.TextField("Depth Test On vs Off", EditorStyles.boldLabel);
+
+			GUILayout.BeginHorizontal();
+
+			if(GUILayout.Button("Depth Test On"))
+			{
+				foreach(Demo d in targets) d.SetDepthTest(true);
+			}
+
+			if(GUILayout.Button("Depth Test Off"))
+			{
+				foreach(Demo d in targets) d.SetDepthTest(false);
 			}
 
 			GUILayout.EndHorizontal();
